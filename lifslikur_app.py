@@ -1,17 +1,14 @@
 import streamlit as st
 
-# 🌿 AI Bot for Predicting Life Expectancy & Health Score (Streamlit Edition)
-# Built with love, data, and logic. Inspired by sociology, medicine, psychology, and more.
-
 def main():
     st.set_page_config(page_title="Lífslíkur AI", layout="centered")
     st.title("🤖 Lífslíka- og Heilsumatsbotn")
-    st.write("\nSvaraðu eftirfarandi spurningum og við spáum fyrir um áætlaðan lífaldur þinn og heilsuvísitölu (1–100).")
+    st.write("Svaraðu spurningunum og fáðu heilsumat og áætlaðan lífaldur.")
 
     with st.form("lifslikur_form"):
         st.header("1. Líkamlegt heilbrigði")
-        height = st.number_input("Hver er hæð þín í sentímetrum?", min_value=100, max_value=250, value=175)
-        weight = st.number_input("Hver er þyngd þín í kílóum?", min_value=30, max_value=200, value=70)
+        height = st.number_input("Hver er hæð þín í sentímetrum?", 100, 250, 175)
+        weight = st.number_input("Hver er þyngd þín í kílóum?", 30, 200, 70)
         exercise = st.radio("Hreyfir þú þig að minnsta kosti 150 mínútur á viku?", ["Já", "Nei"])
         vegetables = st.radio("Borðar þú grænmeti og ávexti daglega?", ["Já", "Nei"])
         smoking = st.selectbox("Reykir þú eða hefur reykt áður?", ["Aldrei", "Reykti áður", "Reykir núna"])
@@ -45,7 +42,7 @@ def main():
         st.header("6. Lífsviðhorf og venjur")
         diet = st.selectbox("Hvernig myndirðu lýsa mataræði þínu?", ["Frábært", "Ásættanlegt", "Slæmt"])
         stress_management = st.radio("Reynir þú að stýra streitu meðvitað?", ["Já", "Nei"])
-        novelty = st.radio("Gerir þú eitthvað nýtt reglulega (t.d. ferðalög, ný verkefni)?", ["Já", "Nei"])
+        novelty = st.radio("Gerir þú eitthvað nýtt reglulega?", ["Já", "Nei"])
         spirituality = st.radio("Ertu trúarleg/ur eða andlega sinnaður?", ["Já", "Nei"])
         purpose = st.radio("Hefur þú skýr lífsmarkmið eða tilgang?", ["Já", "Nei"])
 
@@ -54,28 +51,23 @@ def main():
     if submitted:
         score = 0
 
-        # Reikna heilsustig
         if exercise == "Já": score += 6
         if vegetables == "Já": score += 4
         if smoking == "Aldrei": score += 5
         if alcohol in ["Aldrei", "Stundum"]: score += 3
         if checkups == "Já": score += 3
-
         if loneliness == "Aldrei": score += 3
         if relationships == "Já": score += 3
         if stress == "Aldrei": score += 3
         if happiness == "Daglega": score += 3
         if mental_history == "Nei": score += 3
-
         if 7 <= sleep_hours <= 9: score += 4
         if sleep_quality == "Já": score += 2
         if sleep_routine == "Já": score += 2
-
         if health_access == "Já": score += 2
         if income == "8M+": score += 2
         if education == "Háskóli": score += 2
         if pension == "Já": score += 2
-
         if diet == "Frábært": score += 4
         if stress_management == "Já": score += 3
         if novelty == "Já": score += 2
@@ -91,8 +83,5 @@ def main():
         st.success(f"Áætlaður lífaldur: {life_expectancy} ár")
         st.info(f"Heilsuvísitala þín: {health_score} / 100")
 
-
 if __name__ == "__main__":
     main()
-Uppfæri í Streamlit útgáfu með vefviðmóti
-
