@@ -1,123 +1,96 @@
-# AI BOT FOR PREDICTING LIFE EXPECTANCY AND HEALTH SCORE
-# Using principles from Public Health, Sociology, Psychology, Medicine, Economics, etc.
+import streamlit as st
 
-import random
+# 🌿 AI Bot for Predicting Life Expectancy & Health Score (Streamlit Edition)
+# Built with love, data, and logic. Inspired by sociology, medicine, psychology, and more.
 
-class LifeExpectancyAIBot:
-    def __init__(self):
-        self.questions = self._generate_questions()
-        self.responses = {}
+def main():
+    st.set_page_config(page_title="Lífslíkur AI", layout="centered")
+    st.title("🤖 Lífslíka- og Heilsumatsbotn")
+    st.write("\nSvaraðu eftirfarandi spurningum og við spáum fyrir um áætlaðan lífaldur þinn og heilsuvísitölu (1–100).")
 
-    def _generate_questions(self):
-        return {
-            # Physical Health
-            "height": "Hver er hæð þín í sentímetrum?",
-            "weight": "Hver er þyngd þín í kílóum?",
-            "exercise": "Hreyfir þú þig að minnsta kosti 150 mínútur á viku? (já/nei)",
-            "vegetables": "Borðar þú grænmeti og ávexti daglega? (já/nei)",
-            "smoking": "Reykir þú eða hefur reykt áður? (aldrei/reykti/reyki enn)",
-            "alcohol": "Drekkur þú áfengi? (aldrei/stundum/vikulega/daglega)",
-            "checkups": "Ferðu reglulega í læknisskoðun (árlega)? (já/nei)",
+    with st.form("lifslikur_form"):
+        st.header("1. Líkamlegt heilbrigði")
+        height = st.number_input("Hver er hæð þín í sentímetrum?", min_value=100, max_value=250, value=175)
+        weight = st.number_input("Hver er þyngd þín í kílóum?", min_value=30, max_value=200, value=70)
+        exercise = st.radio("Hreyfir þú þig að minnsta kosti 150 mínútur á viku?", ["Já", "Nei"])
+        vegetables = st.radio("Borðar þú grænmeti og ávexti daglega?", ["Já", "Nei"])
+        smoking = st.selectbox("Reykir þú eða hefur reykt áður?", ["Aldrei", "Reykti áður", "Reykir núna"])
+        alcohol = st.selectbox("Drekkur þú áfengi?", ["Aldrei", "Stundum", "Vikulega", "Daglega"])
+        checkups = st.radio("Ferðu reglulega í læknisskoðun?", ["Já", "Nei"])
 
-            # Mental Health & Social
-            "loneliness": "Finnur þú til félagslegrar einangrunar? (aldrei/stundum/oft)",
-            "relationships": "Áttu nán sambönd (vinir/fjölskylda)? (já/nei)",
-            "stress": "Finnur þú reglulega fyrir streitu? (aldrei/stundum/oft)",
-            "happiness": "Hversu oft hlærðu/hugsar jákvætt? (daglega/stundum/sjaldan)",
-            "mental_history": "Hefur þú greinst með geðrænan vanda? (já/nei)",
+        st.header("2. Geðheilsa og félagsleg tengsl")
+        loneliness = st.selectbox("Finnur þú til félagslegrar einangrunar?", ["Aldrei", "Stundum", "Oft"])
+        relationships = st.radio("Áttu nán sambönd (vinir/fjölskylda)?", ["Já", "Nei"])
+        stress = st.selectbox("Finnur þú reglulega fyrir streitu?", ["Aldrei", "Stundum", "Oft"])
+        happiness = st.selectbox("Hversu oft hlærðu/hugsar jákvætt?", ["Daglega", "Stundum", "Sjaldan"])
+        mental_history = st.radio("Hefur þú greinst með geðrænan vanda?", ["Já", "Nei"])
 
-            # Sleep
-            "sleep_hours": "Hversu margar klukkustundir sefur þú að meðaltali á nóttu?",
-            "sleep_quality": "Vaknar þú úthvíld/ur flesta morgna? (já/nei)",
-            "sleep_routine": "Ferðu alltaf að sofa á svipuðum tíma? (já/nei)",
+        st.header("3. Svefn")
+        sleep_hours = st.slider("Hversu margar klukkustundir sefur þú á nóttu?", 3, 12, 7)
+        sleep_quality = st.radio("Vaknar þú úthvíld/ur flesta morgna?", ["Já", "Nei"])
+        sleep_routine = st.radio("Ferðu að sofa á svipuðum tíma á kvöldin?", ["Já", "Nei"])
 
-            # Environmental & Economic
-            "residence": "Hvar býrðu? (borg/smábær/sveit)",
-            "health_access": "Hefur þú greiðan aðgang að heilbrigðisþjónustu? (já/nei)",
-            "income": "Hver eru árslaun þín? (undir 4M/4-8M/8M+)",
-            "education": "Hvaða menntun hefur þú lokið? (grunnskóli/framhaldsskóli/háskóli)",
-            "employment": "Ertu í vinnu? (já/nei/eftirlaun)",
-            "pension": "Ertu fjárhagslega örugg/ur? (já/nei)",
+        st.header("4. Umhverfi og fjárhagur")
+        health_access = st.radio("Hefur þú greiðan aðgang að heilbrigðisþjónustu?", ["Já", "Nei"])
+        income = st.selectbox("Hver eru árslaun þín?", ["Undir 4M", "4-8M", "8M+"])
+        education = st.selectbox("Hvaða menntun hefur þú lokið?", ["Grunnskóli", "Framhaldsskóli", "Háskóli"])
+        pension = st.radio("Ertu fjárhagslega örugg/ur?", ["Já", "Nei"])
 
-            # Family History
-            "heart_disease": "Eru hjartasjúkdómar í fjölskyldunni? (já/nei)",
-            "cancer_family": "Hefur einhver í fjölskyldunni fengið krabbamein? (já/nei)",
-            "mental_family": "Eru geðsjúkdómar í fjölskyldunni? (já/nei)",
-            "parent_age": "Hversu gamlir urðu foreldrar þínir (að meðaltali)?",
+        st.header("5. Erfðir og ættarsaga")
+        heart_disease = st.radio("Eru hjartasjúkdómar í fjölskyldunni?", ["Já", "Nei"])
+        cancer_family = st.radio("Er krabbamein algengt í fjölskyldunni?", ["Já", "Nei"])
+        mental_family = st.radio("Eru geðsjúkdómar í fjölskyldunni?", ["Já", "Nei"])
+        parent_age = st.slider("Hversu gamlir urðu foreldrar þínir að meðaltali?", 50, 105, 75)
 
-            # Lifestyle
-            "diet": "Hvernig myndirðu lýsa mataræði þínu? (frábært/ásættanlegt/slæmt)",
-            "stress_management": "Reynir þú að stýra streitu (t.d. með hugleiðslu)? (já/nei)",
-            "novelty": "Gerir þú eitthvað nýtt/mismunandi reglulega? (já/nei)",
-            "spirituality": "Ertu andlega eða trúarlega sinnaður? (já/nei)",
-            "purpose": "Hefur þú tilgang eða lífsmarkmið? (já/nei)"
-        }
+        st.header("6. Lífsviðhorf og venjur")
+        diet = st.selectbox("Hvernig myndirðu lýsa mataræði þínu?", ["Frábært", "Ásættanlegt", "Slæmt"])
+        stress_management = st.radio("Reynir þú að stýra streitu meðvitað?", ["Já", "Nei"])
+        novelty = st.radio("Gerir þú eitthvað nýtt reglulega (t.d. ferðalög, ný verkefni)?", ["Já", "Nei"])
+        spirituality = st.radio("Ertu trúarleg/ur eða andlega sinnaður?", ["Já", "Nei"])
+        purpose = st.radio("Hefur þú skýr lífsmarkmið eða tilgang?", ["Já", "Nei"])
 
-    def collect_responses(self):
-        print("\n--- Spurningalisti AI Bots ---")
-        for key, question in self.questions.items():
-            answer = input(f"{question}\n> ")
-            self.responses[key] = answer.strip().lower()
+        submitted = st.form_submit_button("Reikna lífslíkur")
 
-    def calculate_health_score(self):
+    if submitted:
         score = 0
 
-        # Sample scoring logic, can be deeply improved per research
-        if self.responses.get("exercise") == "já": score += 6
-        if self.responses.get("vegetables") == "já": score += 4
-        if self.responses.get("smoking") == "aldrei": score += 5
-        if self.responses.get("alcohol") in ["aldrei", "stundum"]: score += 3
-        if self.responses.get("checkups") == "já": score += 3
+        # Reikna heilsustig
+        if exercise == "Já": score += 6
+        if vegetables == "Já": score += 4
+        if smoking == "Aldrei": score += 5
+        if alcohol in ["Aldrei", "Stundum"]: score += 3
+        if checkups == "Já": score += 3
 
-        if self.responses.get("loneliness") == "aldrei": score += 3
-        if self.responses.get("relationships") == "já": score += 3
-        if self.responses.get("stress") == "aldrei": score += 3
-        if self.responses.get("happiness") == "daglega": score += 3
-        if self.responses.get("mental_history") == "nei": score += 3
+        if loneliness == "Aldrei": score += 3
+        if relationships == "Já": score += 3
+        if stress == "Aldrei": score += 3
+        if happiness == "Daglega": score += 3
+        if mental_history == "Nei": score += 3
 
-        if self.responses.get("sleep_hours") and 7 <= int(self.responses["sleep_hours"]) <= 9:
-            score += 4
-        if self.responses.get("sleep_quality") == "já": score += 2
-        if self.responses.get("sleep_routine") == "já": score += 2
+        if 7 <= sleep_hours <= 9: score += 4
+        if sleep_quality == "Já": score += 2
+        if sleep_routine == "Já": score += 2
 
-        if self.responses.get("health_access") == "já": score += 2
-        if self.responses.get("income") == "8m+": score += 2
-        if self.responses.get("education") == "háskóli": score += 2
-        if self.responses.get("pension") == "já": score += 2
+        if health_access == "Já": score += 2
+        if income == "8M+": score += 2
+        if education == "Háskóli": score += 2
+        if pension == "Já": score += 2
 
-        if self.responses.get("diet") == "frábært": score += 4
-        if self.responses.get("stress_management") == "já": score += 3
-        if self.responses.get("novelty") == "já": score += 2
-        if self.responses.get("spirituality") == "já": score += 1
-        if self.responses.get("purpose") == "já": score += 3
+        if diet == "Frábært": score += 4
+        if stress_management == "Já": score += 3
+        if novelty == "Já": score += 2
+        if spirituality == "Já": score += 1
+        if purpose == "Já": score += 3
 
-        return min(score * 2, 100)  # Scale to 100
+        health_score = min(score * 2, 100)
+        base_life = 72
+        adj = (health_score - 50) // 3
+        fam_adj = (parent_age - 72) // 3
+        life_expectancy = max(40, min(base_life + adj + fam_adj, 105))
 
-    def predict_life_expectancy(self):
-        base = 72  # Base life expectancy
-        score = self.calculate_health_score()
-        adjustment = (score - 50) // 3  # For every 3 points above/below 50, add/subtract 1 year
-
-        family_adjustment = 0
-        try:
-            parent_avg_age = int(self.responses.get("parent_age", "72"))
-            family_adjustment = (parent_avg_age - 72) // 3
-        except ValueError:
-            pass
-
-        total_life_expectancy = base + adjustment + family_adjustment
-        return max(40, min(total_life_expectancy, 105))  # Clamp value
-
-    def run(self):
-        self.collect_responses()
-        health_score = self.calculate_health_score()
-        life_expectancy = self.predict_life_expectancy()
-
-        print("\n--- Niðurstöður ---")
-        print(f"Heilsuvísitala þín: {health_score}/100")
-        print(f"Áætlaður lífaldur: {life_expectancy} ár")
+        st.success(f"Áætlaður lífaldur: {life_expectancy} ár")
+        st.info(f"Heilsuvísitala þín: {health_score} / 100")
 
 
-# Kalla á líkanið
-aibot = LifeExpectancyAIBot()
-aibot.run()
+if __name__ == "__main__":
+    main()
