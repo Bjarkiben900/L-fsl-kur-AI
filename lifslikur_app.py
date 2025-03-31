@@ -85,3 +85,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+Uppfæri í rétta Streamlit útgáfu með vefviðmóti
